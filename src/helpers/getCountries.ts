@@ -2,7 +2,7 @@ import { useCountriesQuery } from "../api/countryApi";
 import { useEffect } from "react";
 import { country } from "../interfaces/countries";
 import { useDispatch } from "react-redux";
-import { addCountries, setShowedCountries } from "../slices/countriesSlice";
+import { addCountries, setCountriesShowed } from "../slices/countriesSlice";
 
 export const getCountries = () => {
   const { data, isSuccess } = useCountriesQuery();
@@ -32,7 +32,8 @@ export const getCountries = () => {
         }))
         .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
       dispatch(addCountries(countries));
-      dispatch(setShowedCountries(countries))
+      dispatch(setCountriesShowed(countries));
+
     }
   }, [data]);
 };

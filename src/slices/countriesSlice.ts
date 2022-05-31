@@ -4,9 +4,7 @@ import { Region } from "../interfaces/countriesResponse";
 
 const initialState: CountriesState = {
   countries: [],
-  continent: [],
-  filteredCountries: [],
-  showedCountries: [],
+  countriesShowed: [],
 };
 
 export const countriesState = createSlice({
@@ -16,42 +14,49 @@ export const countriesState = createSlice({
     addCountries: (state, action: PayloadAction<country[]>) => {
       state.countries = action.payload;
     },
-    setContinent: (state, action: PayloadAction<string | Region>) => {
-      if (action.payload === "All") state.continent = state.countries;
+    setCountriesShowed: (state, action: PayloadAction<country[]>) => {
+      state.countriesShowed = action.payload;
+    },
+    searchByRegion: (state, action: PayloadAction<string | Region>) => {
+      if (action.payload === "All") state.countriesShowed = state.countries;
       else {
-        state.continent = state.countries
+        state.countriesShowed = state.countries
           ?.filter((country) => country.region.includes(action.payload))
           .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
       }
     },
-    clearContinent: (state) => {
-      state.continent = [];
+    searchByCountry: (
+      state,
+      action: PayloadAction<{ country: string; region: string }>
+    ) => {
+      if ((action.payload.region === "All")) {
+        state.countriesShowed = state.countries
+          ?.filter((country) =>
+            country.name
+              .toLocaleLowerCase()
+              .includes(action.payload.country.trim().toLocaleLowerCase())
+          )
+          .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
+      } else {
+        state.countriesShowed = state.countries
+          ?.filter(
+            (country) =>
+              country.name
+                .toLocaleLowerCase()
+                .includes(action.payload.country.trim().toLocaleLowerCase()) &&
+              country.region.includes(action.payload.region)
+          ).sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
+      }
     },
-    searchCountry: (state, action: PayloadAction<string>) => {
-      state.filteredCountries = state.continent
-        ?.filter((country) =>
-          country.name
-            .toLocaleLowerCase()
-            .includes(action.payload.trim().toLocaleLowerCase())
-        )
-        .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
-    },
-    clearCountryArr: (state) => {
-      state.filteredCountries = [];
-    },
-    setShowedCountries: (state, action: PayloadAction<country[]>) => {
-      state.showedCountries = action.payload;
-    },
+
   },
 });
 
 export const {
   addCountries,
-  setContinent,
-  clearContinent,
-  searchCountry,
-  clearCountryArr,
-  setShowedCountries,
+  setCountriesShowed,
+  searchByRegion,
+  searchByCountry,
 } = countriesState.actions;
 
 export default countriesState.reducer;

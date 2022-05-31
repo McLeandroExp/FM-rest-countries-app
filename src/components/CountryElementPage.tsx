@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { country } from "../interfaces/countries";
-import { setContinent, setShowedCountries } from "../slices/countriesSlice";
+import { searchByRegion } from "../slices/countriesSlice";
+// import { setContinent, setShowedCountries } from "../slices/countriesSlice";
 
 export const CountryElementPage = () => {
   const [country, setCountry] = useState<country | undefined>(undefined);
   const [searchParams, setSearchParams] = useSearchParams();
   const countryName = searchParams.get("country");
-  const { countries, continent } = useAppSelector((store) => store.countries);
+  const { countries } = useAppSelector(
+    (store) => store.countries
+  );
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCountry(countries?.find((country) => country.name === countryName));
@@ -23,7 +27,8 @@ export const CountryElementPage = () => {
           className="w-28 flex justify-center items-stretch gap-3 p-2 bg-Dark-Blue rounded-sm drop-shadow-md"
           onClick={() => {
             navigate(-1);
-            continent && dispatch(setShowedCountries(continent));
+            country && dispatch(searchByRegion(country.region));
+            // continent && dispatch(setShowedCountries(continent));
           }}
         >
           <span className="flex items-center">
