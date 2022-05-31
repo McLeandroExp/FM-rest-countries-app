@@ -3,6 +3,7 @@ import { Currencies, Region } from "./countriesResponse";
 export interface CountriesState {
   countries?: country[];
   continent? : country[];
+  filteredCountries? : country[]
 }
 export interface country {
   name: string;

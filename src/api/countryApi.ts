@@ -9,13 +9,6 @@ export const countriesApi = createApi({
         countries : builder.query<CountriesResponse[], void>({
             query : ()=> '/all'
         }),
-        country : builder.query<CountryResponse[], string>({
-            query : (countryName) => `/name/${countryName}`
-        }),
-        continent : builder.query<CountryResponse[], string>({
-            query : (countryName) => `/name/${countryName}`
-        })
-
     })
 })
-export const {useCountriesQuery,useCountryQuery, useContinentQuery} = countriesApi
+export const {useCountriesQuery} = countriesApi
