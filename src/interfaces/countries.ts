@@ -4,6 +4,7 @@ export interface CountriesState {
   countries?: country[];
   continent? : country[];
   filteredCountries? : country[]
+  showedCountries? : country[]
 }
 export interface country {
   name: string;

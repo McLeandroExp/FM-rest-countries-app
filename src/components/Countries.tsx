@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../hooks/redux";
-import { CountryElement } from "./CountryElement";
-import { getCountries } from "../helpers/getCountries";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { country } from "../interfaces/countries";
+import { setShowedCountries } from "../slices/countriesSlice";
+import { CountryElement } from "./CountryElement";
 
 export const Countries = () => {
-  const [nCountriesShowed, setNCountriesShowed] = useState(20);
-  const { countries, continent, filteredCountries } = useAppSelector(
-    (store) => store.countries
-  );
-  const [arr, setArr] = useState<country[] | undefined>(undefined);
+  // const [sCountries, setsCountries] = useState<country[]| undefined>(undefined)
+  const { countries, continent, filteredCountries, showedCountries } =
+    useAppSelector((store) => store.countries);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    // setArr( continent?.length === 0 ? countries : continent)
-    setArr(
-      filteredCountries?.length === 0
-        ? continent?.length === 0
-          ? countries
-          : continent
-        : filteredCountries
-    );
-
-    setNCountriesShowed(continent?.length === 0 ? 20 : 999);
-  }, [countries, continent, filteredCountries]);
+    countries && dispatch(setShowedCountries(countries));
+  }, [countries]);
+  useEffect(() => {
+    continent && dispatch(setShowedCountries(continent));
+    // setNCountriesShowed(999)
+  }, [continent]);
+  useEffect(() => {
+    filteredCountries && dispatch(setShowedCountries(filteredCountries));
+    // setNCountriesShowed(999)
+  }, [filteredCountries]);
+  useEffect(() => {
+    showedCountries && dispatch(setShowedCountries(showedCountries));
+  }, [showedCountries]);
 
   return (
     <div className="grid grid-cols-countries justify-center gap-12 mt-6">
-      {arr?.map((country, i) => {
-        if (i < nCountriesShowed) {
-          return <CountryElement key={country.name} country={country} />;
-        }
+      {showedCountries?.map((country) => {
+        return <CountryElement key={country.name} country={country} />;
       })}
     </div>
   );

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { country } from "../interfaces/countries";
+import { setContinent, setShowedCountries } from "../slices/countriesSlice";
 
 export const CountryElementPage = () => {
   const [country, setCountry] = useState<country | undefined>(undefined);
   const [searchParams, setSearchParams] = useSearchParams();
   const countryName = searchParams.get("country");
-  const { countries } = useAppSelector((store) => store.countries);
+  const { countries, continent } = useAppSelector((store) => store.countries);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     setCountry(countries?.find((country) => country.name === countryName));
   }, [countries]);
@@ -18,7 +21,10 @@ export const CountryElementPage = () => {
       <main className="p-7 pb-11">
         <button
           className="w-28 flex justify-center items-stretch gap-3 p-2 bg-Dark-Blue rounded-sm drop-shadow-md"
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            navigate(-1);
+            continent && dispatch(setShowedCountries(continent));
+          }}
         >
           <span className="flex items-center">
             <img
@@ -37,20 +43,43 @@ export const CountryElementPage = () => {
             <h3 className="text-2xl text-White">{country?.name}</h3>
             <div className="flex flex-col gap-4 lg:flex-row justify-between">
               <div className="flex flex-col gap-2 text-sm">
-                <h4>Native name: <span className="text-Dark-Gray">{country?.nativeName}</span></h4>
-                <h4>Population: <span className="text-Dark-Gray">{country?.population}</span></h4>
-                <h4>Region: <span className="text-Dark-Gray">{country?.region}</span></h4>
-                <h4>Sub Region: <span className="text-Dark-Gray">{country?.subregion}</span></h4>
-                <h4>Capital: <span className="text-Dark-Gray">{country?.capital}</span></h4>
+                <h4>
+                  Native name:{" "}
+                  <span className="text-Dark-Gray">{country?.nativeName}</span>
+                </h4>
+                <h4>
+                  Population:{" "}
+                  <span className="text-Dark-Gray">{country?.population}</span>
+                </h4>
+                <h4>
+                  Region:{" "}
+                  <span className="text-Dark-Gray">{country?.region}</span>
+                </h4>
+                <h4>
+                  Sub Region:{" "}
+                  <span className="text-Dark-Gray">{country?.subregion}</span>
+                </h4>
+                <h4>
+                  Capital:{" "}
+                  <span className="text-Dark-Gray">{country?.capital}</span>
+                </h4>
               </div>
               <div className="flex flex-col gap-2 text-sm">
-                <h4>Top Level Domain: <span className="text-Dark-Gray">{country?.domain}</span></h4>
-                <h4>Languages: <span className="text-Dark-Gray">{country?.languages}</span></h4>
+                <h4>
+                  Top Level Domain:{" "}
+                  <span className="text-Dark-Gray">{country?.domain}</span>
+                </h4>
+                <h4>
+                  Languages:{" "}
+                  <span className="text-Dark-Gray">{country?.languages}</span>
+                </h4>
               </div>
             </div>
             <div className="text-sm">
               <h4 className="text-lg">Border Countries:</h4>
-              <h4 className="text-Dark-Gray">{country?.["border-countries"]}</h4>
+              <h4 className="text-Dark-Gray">
+                {country?.["border-countries"]}
+              </h4>
             </div>
           </section>
         </article>

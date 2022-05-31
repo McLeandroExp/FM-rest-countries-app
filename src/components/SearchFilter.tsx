@@ -1,23 +1,30 @@
-import { ChangeEvent, useRef, useState } from "react";
-import { useAppDispatch } from "../hooks/redux";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
-  clearContinent,
-  clearCountryArr,
   searchCountry,
   setContinent,
+  setShowedCountries,
 } from "../slices/countriesSlice";
 
 export const SearchFilter = () => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const {continent } = useAppSelector((store) => store.countries);
+  const [continentName, setContinentName] = useState("All");
   const dispatch = useAppDispatch();
-  let debounceRef = useRef<number>();
   const [filterText, setFilterText] = useState("All");
+  const [countriesNames, setcountriesNames] = useState([
+    "Africa",
+    "Americas",
+    "Asia",
+    "Europe",
+    "Oceania",
+  ]);
   const onQueryChanged = (event: ChangeEvent<HTMLInputElement>) => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    if (!event.target.value) return dispatch(clearCountryArr());
-    debounceRef.current = setTimeout(() => {
-      dispatch(searchCountry(event.target.value));
-    }, 400);
+    if (!event.target.value) {
+      // continent && dispatch(setShowedCountries(continent))
+      return continent && dispatch(setContinent(continentName));
+    }
+    dispatch(searchCountry(event.target.value));
   };
   return (
     <nav className="flex flex-col md:flex-row mt-6 gap-8 justify-between">
@@ -45,64 +52,29 @@ export const SearchFilter = () => {
         >
           <li
             onClick={() => {
-              dispatch(clearContinent());
               setMenuVisible(false);
               setFilterText("All");
+              dispatch(setContinent("All"));
+              setContinentName("All");
             }}
             className="hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
           >
             All
           </li>
-          <li
-            onClick={() => {
-              dispatch(setContinent("Africa"));
-              setMenuVisible(false);
-              setFilterText("Africa");
-            }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer focus:bg-Very-Dark-Blue-A"
-          >
-            Africa
-          </li>
-          <li
-            onClick={() => {
-              dispatch(setContinent("Americas"));
-              setMenuVisible(false);
-              setFilterText("America");
-            }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer focus:bg-Very-Dark-Blue-A"
-          >
-            America
-          </li>
-          <li
-            onClick={() => {
-              dispatch(setContinent("Asia"));
-              setMenuVisible(false);
-              setFilterText("Asia");
-            }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer focus:bg-Very-Dark-Blue-A"
-          >
-            Asia
-          </li>
-          <li
-            onClick={() => {
-              dispatch(setContinent("Europe"));
-              setMenuVisible(false);
-              setFilterText("Europe");
-            }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer focus:bg-Very-Dark-Blue-A"
-          >
-            Europe
-          </li>
-          <li
-            onClick={() => {
-              dispatch(setContinent("Oceania"));
-              setMenuVisible(false);
-              setFilterText("Oceania");
-            }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer focus:bg-Very-Dark-Blue-A"
-          >
-            Oceania
-          </li>
+          {countriesNames.map((countryName) => (
+            <li
+              key={countryName}
+              onClick={() => {
+                dispatch(setContinent(countryName));
+                setMenuVisible(false);
+                setFilterText(countryName);
+                setContinentName(countryName);
+              }}
+              className="hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
+            >
+              {countryName}
+            </li>
+          ))}
         </ul>
       </div>
     </nav>
