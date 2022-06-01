@@ -5,6 +5,7 @@ import { Region } from "../interfaces/countriesResponse";
 const initialState: CountriesState = {
   countries: [],
   countriesShowed: [],
+  actualRegion: "All",
 };
 
 export const countriesState = createSlice({
@@ -18,18 +19,21 @@ export const countriesState = createSlice({
       state.countriesShowed = action.payload;
     },
     searchByRegion: (state, action: PayloadAction<string | Region>) => {
-      if (action.payload === "All") state.countriesShowed = state.countries;
+      if (action.payload === "All") {
+        state.countriesShowed = state.countries;
+      }
       else {
         state.countriesShowed = state.countries
           ?.filter((country) => country.region.includes(action.payload))
           .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
       }
+      state.actualRegion = action.payload 
     },
     searchByCountry: (
       state,
       action: PayloadAction<{ country: string; region: string }>
     ) => {
-      if ((action.payload.region === "All")) {
+      if (action.payload.region === "All") {
         state.countriesShowed = state.countries
           ?.filter((country) =>
             country.name
@@ -45,10 +49,13 @@ export const countriesState = createSlice({
                 .toLocaleLowerCase()
                 .includes(action.payload.country.trim().toLocaleLowerCase()) &&
               country.region.includes(action.payload.region)
-          ).sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
+          )
+          .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
       }
     },
-
+    changeRegion: (state, action: PayloadAction<string>) => {
+      state.actualRegion = action.payload;
+    },
   },
 });
 
@@ -57,6 +64,7 @@ export const {
   setCountriesShowed,
   searchByRegion,
   searchByCountry,
+  changeRegion
 } = countriesState.actions;
 
 export default countriesState.reducer;

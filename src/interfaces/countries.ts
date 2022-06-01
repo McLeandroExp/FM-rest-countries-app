@@ -2,7 +2,8 @@ import { Currencies, Region } from "./countriesResponse";
 
 export interface CountriesState {
   countries?: country[];
-  countriesShowed? : country[]
+  countriesShowed? : country[];
+  actualRegion : string
 }
 export interface country {
   name: string;

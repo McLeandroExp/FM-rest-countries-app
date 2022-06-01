@@ -7,9 +7,9 @@ import { searchByRegion } from "../slices/countriesSlice";
 
 export const CountryElementPage = () => {
   const [country, setCountry] = useState<country | undefined>(undefined);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const countryName = searchParams.get("country");
-  const { countries } = useAppSelector(
+  const { countries, actualRegion } = useAppSelector(
     (store) => store.countries
   );
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const CountryElementPage = () => {
           className="w-28 flex justify-center shadow-lg items-stretch gap-3 p-2 bg-White dark:bg-Dark-Blue rounded-sm drop-shadow-md"
           onClick={() => {
             navigate('../')
-            country && dispatch(searchByRegion(country.region));
+            country && dispatch(searchByRegion(actualRegion));
           }}
         >
           <span className="flex items-center">
