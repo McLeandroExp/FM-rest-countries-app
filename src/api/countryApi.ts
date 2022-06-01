@@ -1,6 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { CountriesResponse } from '../interfaces/countriesResponse'
-import { CountryResponse } from '../interfaces/countryResponse'
 
 export const countriesApi = createApi({
     reducerPath: "countriesApi",

@@ -1,12 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { Countries } from "./components/Countries";
 import { Header } from "./components/Header";
-import { SearchFilter } from "./components/SearchFilter";
 
-function App() {
-
+function App() {  
   return (
-    <div className="App bg-Very-Dark-Blue-A text-White min-h-screen font-nunito-sans">
+    <div className="App font-semibold bg-Very-Light-Gray text-Very-Dark-Blue-B min-h-screen font-nunito-sans dark:bg-Very-Dark-Blue-A dark:text-White">
       <Header />
       <Outlet/>
     </div>

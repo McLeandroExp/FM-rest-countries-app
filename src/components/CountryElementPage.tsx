@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppSelector } from "../hooks/redux";
 import { country } from "../interfaces/countries";
 import { searchByRegion } from "../slices/countriesSlice";
-// import { setContinent, setShowedCountries } from "../slices/countriesSlice";
 
 export const CountryElementPage = () => {
   const [country, setCountry] = useState<country | undefined>(undefined);
@@ -21,14 +20,13 @@ export const CountryElementPage = () => {
   }, [countries]);
 
   return (
-    <div className="bg-Very-Dark-Blue-A text-White min-h-screen font-nunito-sans">
+    <div className="bg-Very-Light-Gray text-Very-Dark-Blue-B dark:bg-Very-Dark-Blue-A dark:text-White min-h-screen font-nunito-sans">
       <main className="p-7 pb-11">
         <button
-          className="w-28 flex justify-center items-stretch gap-3 p-2 bg-Dark-Blue rounded-sm drop-shadow-md"
+          className="w-28 flex justify-center shadow-lg items-stretch gap-3 p-2 bg-White dark:bg-Dark-Blue rounded-sm drop-shadow-md"
           onClick={() => {
-            navigate(-1);
+            navigate('../')
             country && dispatch(searchByRegion(country.region));
-            // continent && dispatch(setShowedCountries(continent));
           }}
         >
           <span className="flex items-center">
@@ -44,8 +42,8 @@ export const CountryElementPage = () => {
           <figure className="max-w-md">
             <img src={country?.img} alt={country?.img} />
           </figure>
-          <section className="text-left flex flex-col gap-4">
-            <h3 className="text-2xl text-White">{country?.name}</h3>
+          <section className="text-left text-Very-Dark-Blue-B dark:text-White flex flex-col gap-4">
+            <h3 className="text-2xl ">{country?.name}</h3>
             <div className="flex flex-col gap-4 lg:flex-row justify-between">
               <div className="flex flex-col gap-2 text-sm">
                 <h4>

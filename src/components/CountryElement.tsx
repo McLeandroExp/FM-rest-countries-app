@@ -7,17 +7,17 @@ interface Props {
 export const CountryElement: FC<Props> = ({ country }) => {
   const navigate = useNavigate()
   return (
-    <article className=" bg-Dark-Blue rounded-xl cursor-pointer" onClick={()=>{
+    <article className="bg-White dark:bg-Dark-Blue rounded-xl cursor-pointer shadow-lg" onClick={()=>{
       navigate(`/search?country=${country.name}`)
     }}>
       <figure>
         <img
-          className="[width:100%] h-52 object-cover rounded-xl"
+          className="[width:100%] h-52 object-cover rounded-xl rounded-b-none"
           src={country.img}
           alt={country.name}
         />
       </figure>
-      <div className="p-4 rounded-xl">
+      <div className="p-4">
         <h2>{country.name}</h2>
         <h3 className="mt-3">
           Population :{" "}

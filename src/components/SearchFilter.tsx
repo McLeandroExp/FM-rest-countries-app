@@ -1,13 +1,12 @@
 import { ChangeEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { useAppDispatch } from "../hooks/redux";
 import { searchByCountry, searchByRegion } from "../slices/countriesSlice";
 
 export const SearchFilter = () => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const { countries } = useAppSelector((store) => store.countries);
   const [regionName, setRegionName] = useState("All");
   const dispatch = useAppDispatch();
-  const [countriesNames, setcountriesNames] = useState([
+  const [countriesNames] = useState([
     "Africa",
     "Americas",
     "Asia",
@@ -16,22 +15,24 @@ export const SearchFilter = () => {
   ]);
   const onQueryChanged = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.value) {
-      dispatch(searchByCountry({country:event.target.value, region:regionName}))
-    }else{
-      dispatch(searchByRegion(regionName))
+      dispatch(
+        searchByCountry({ country: event.target.value, region: regionName })
+      );
+    } else {
+      dispatch(searchByRegion(regionName));
     }
   };
   return (
     <nav className="flex flex-col md:flex-row mt-6 gap-8 justify-between">
       <input
-        className="bg-Dark-Blue p-4 py-2  rounded-md outline-none placeholder:text-White md:w-3/5"
+        className="bg-White dark:bg-Dark-Blue p-4 py-2  rounded-md outline-none drop-shadow-md placeholder:text-Very-Dark-Blue-B dark:placeholder:text-White  lg:w-3/5"
         type="text"
         autoComplete="off"
         placeholder="Search for a country..."
         onChange={onQueryChanged}
       />
-      <div className="w-52 h-12 bg-Very-Dark-Blue-A relative">
-        <div className="h-12 bg-Dark-Blue rounded-md  flex justify-between items-center">
+      <div className="w-52 h-12 bg-White dark:bg-Very-Dark-Blue-A relative drop-shadow-md rounded-md">
+        <div className="h-12  dark:bg-Dark-Blue rounded-md  flex justify-between items-center">
           <span className="px-4">Filter by Region</span>
           <span
             className="flex justify-center items-center w-12 h-12  cursor-pointer"
@@ -41,9 +42,9 @@ export const SearchFilter = () => {
           </span>
         </div>
         <ul
-          className={`bg-Dark-Blue rounded-md p-3 absolute bottom-0 left-0 w-full translate-y-40 ${
+          className={`bg-White dark:bg-Dark-Blue rounded-md p-3 absolute bottom-0 left-0 w-full translate-y-40 ${
             menuVisible ? "" : "invisible"
-          }  transition-opacity `}
+          }  transition-opacity`}
         >
           <li
             onClick={() => {
