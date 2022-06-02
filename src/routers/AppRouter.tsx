@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import App from "../App";
 import { CountryElementPage } from "../components/CountryElementPage";
 import { MainPageContent } from "../components/MainPageContent";
@@ -6,7 +6,7 @@ import { getCountries } from "../helpers/getCountries";
 export const AppRouter = () => {
   getCountries();
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<MainPageContent/>} />
@@ -21,6 +21,6 @@ export const AppRouter = () => {
           />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
