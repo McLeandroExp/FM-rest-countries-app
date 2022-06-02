@@ -6,6 +6,7 @@ const initialState: CountriesState = {
   countries: [],
   countriesShowed: [],
   actualRegion: "All",
+  nPage : 0
 };
 
 export const countriesState = createSlice({
@@ -27,7 +28,7 @@ export const countriesState = createSlice({
           ?.filter((country) => country.region.includes(action.payload))
           .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0));
       }
-      state.actualRegion = action.payload 
+      state.actualRegion = action.payload
     },
     searchByCountry: (
       state,
@@ -56,6 +57,9 @@ export const countriesState = createSlice({
     changeRegion: (state, action: PayloadAction<string>) => {
       state.actualRegion = action.payload;
     },
+    changePage : (state, action: PayloadAction<number>)=>{
+      state.nPage = action.payload
+    }
   },
 });
 
@@ -64,7 +68,8 @@ export const {
   setCountriesShowed,
   searchByRegion,
   searchByCountry,
-  changeRegion
+  changeRegion,
+  changePage
 } = countriesState.actions;
 
 export default countriesState.reducer;

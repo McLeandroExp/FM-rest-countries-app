@@ -1,11 +1,13 @@
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { searchByCountry, searchByRegion } from "../slices/countriesSlice";
+import {
+  changePage,
+  searchByCountry,
+  searchByRegion,
+} from "../slices/countriesSlice";
 
 export const SearchFilter = () => {
-  const { actualRegion } = useAppSelector(
-    (store) => store.countries
-  );
+  const { actualRegion } = useAppSelector((store) => store.countries);
   const [menuVisible, setMenuVisible] = useState(false);
   const [regionName, setRegionName] = useState("All");
   const dispatch = useAppDispatch();
@@ -46,16 +48,17 @@ export const SearchFilter = () => {
         </div>
         <ul
           className={`bg-White dark:bg-Dark-Blue rounded-md p-3 absolute bottom-0 left-0 w-full translate-y-40 ${
-            menuVisible ? "" : "invisible"
-          }  transition-opacity`}
+            menuVisible ? "" : "invisible opacity-0"
+          }  [transition:all_300ms_ease-out]`}
         >
           <li
             onClick={() => {
+              dispatch(searchByRegion("All"));
+              dispatch(changePage(0));
               setMenuVisible(false);
               setRegionName("All");
-              dispatch(searchByRegion("All"));
             }}
-            className="hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
+            className="hover:bg-Very-Light-Gray dark:hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
           >
             All
           </li>
@@ -64,10 +67,11 @@ export const SearchFilter = () => {
               key={countryName}
               onClick={() => {
                 dispatch(searchByRegion(countryName));
+                dispatch(changePage(0));
                 setMenuVisible(false);
                 setRegionName(countryName);
               }}
-              className="hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
+              className="hover:bg-Very-Light-Gray dark:hover:bg-Very-Dark-Blue-A cursor-pointer active:bg-Very-Dark-Blue-A"
             >
               {countryName}
             </li>
