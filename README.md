@@ -27,8 +27,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/McLeandroExp/FM-rest-countries-app)
-- Live Site URL: [Add live site URL here](https://mcleandroexp.github.io/FM-rest-countries-app/)
+- Solution URL: [https://github.com/McLeandroExp/FM-rest-countries-app](https://github.com/McLeandroExp/FM-rest-countries-app)
+- Live Site URL: [https://mcleandroexp.github.io/FM-rest-countries-app/](https://mcleandroexp.github.io/FM-rest-countries-app/)
 
 
 ### Built with
